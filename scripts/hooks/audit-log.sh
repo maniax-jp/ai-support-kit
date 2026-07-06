@@ -1,11 +1,13 @@
 #!/bin/bash
 # PostToolUse hook: 監査ログの記録
 #
-# ツール実行のたびに実行内容の要約を JSONL で追記する。
+# 変更系ツール(settings.json の matcher に一致した Bash / Write / Edit /
+# MultiEdit / NotebookEdit)の実行のたびに、実行内容の要約を JSONL で追記する。
+# 参照系ツール(Read / Grep / Glob 等)は記録しない。
 # 作業管理システム連携を意識した作業証跡であり、何を・いつ・どのセッションで
 # 行ったかを後から追跡できるようにする。
 #
-# 出力先: $AISK_AUDIT_DIR(デフォルト: プロジェクト直下の .audit/)
+# 出力先: $AISK_AUDIT_DIR(デフォルト: $CLAUDE_PROJECT_DIR 直下の .audit/)
 
 # 注意: python3 のプログラムは -c で渡す。ヒアドキュメントを stdin に使うと
 # hook 入力の JSON が読めなくなるため。
@@ -35,8 +37,10 @@ record = {
     "cwd": data.get("cwd", ""),
 }
 
+# cwd はサブディレクトリになりうるため、プロジェクト直下を優先する
 audit_dir = os.environ.get("AISK_AUDIT_DIR") or os.path.join(
-    data.get("cwd") or os.getcwd(), ".audit"
+    os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or os.getcwd(),
+    ".audit",
 )
 os.makedirs(audit_dir, exist_ok=True)
 path = os.path.join(audit_dir, f"audit-{datetime.now():%Y%m%d}.jsonl")
