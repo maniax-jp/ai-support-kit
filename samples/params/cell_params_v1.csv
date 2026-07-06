@@ -1,0 +1,5 @@
+cell_id,pci,tac,earfcn_dl,tx_power_dbm,electrical_tilt_deg,qrxlevmin_dbm,a3_offset_db,hysteresis_db,time_to_trigger_ms,cell_individual_offset_db
+CELL-1022,101,4501,1850,43,4,-124,2,1,320,0
+CELL-1023,102,4501,1850,43,4,-124,2,1,320,0
+CELL-1024,103,4501,1850,43,6,-124,2,1,320,0
+CELL-1031,111,4501,1850,43,4,-124,2,1,320,0

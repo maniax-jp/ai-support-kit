@@ -71,6 +71,14 @@ Thumbs.db
 
 # Logs
 *.log
+# サンプルログは準備物の一部として管理する
+!samples/**/*.log
+
+# 監査ログ(PostToolUse hook の出力先)
+.audit/
+
+# 個人用ローカル設定
+.claude/settings.local.json
 
 # Temporary files
 .tmp/
